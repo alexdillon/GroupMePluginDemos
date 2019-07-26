@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GroupMeClient\GroupMeClientPlugin\GroupMeClientPlugin.csproj" />
+    <Reference Include="GroupMeClientPlugin">
+      <HintPath>..\TargetDependencies\GroupMeClientPlugin.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

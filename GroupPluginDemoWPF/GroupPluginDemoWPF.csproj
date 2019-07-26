@@ -38,6 +38,14 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GroupMeClientApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TargetDependencies\GroupMeClientApi.dll</HintPath>
+    </Reference>
+    <Reference Include="GroupMeClientPlugin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TargetDependencies\GroupMeClientPlugin.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -89,16 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\GroupMeClient\GroupMeClientApi\GroupMeClientApi.csproj">
-      <Project>{25b268ce-04b4-45fb-81f1-309cbe8edf9d}</Project>
-      <Name>GroupMeClientApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\GroupMeClient\GroupMeClientPlugin\GroupMeClientPlugin.csproj">
-      <Project>{69d0fb24-80a1-4a35-886e-03d80acf5606}</Project>
-      <Name>GroupMeClientPlugin</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
