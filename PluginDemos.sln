@@ -9,10 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupPluginDemoWPF", "Group
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupPluginDemoWPF-MVVM", "GroupPluginDemoWPF-MVVM\GroupPluginDemoWPF-MVVM.csproj", "{537B8886-A752-47C4-A5B3-39D6F0CE9232}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonMessagesPlugin", "CommonEffectsPlugin\CommonMessagesPlugin.csproj", "{C19AB6EA-1A6B-4591-A08B-7D4DE5642FFC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemeEffectsPlugin", "MemeEffectsPlugin\MemeEffectsPlugin.csproj", "{C3F5EF33-6AB4-47EE-9801-7D5DA69A19D7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,14 +27,6 @@ Global
 		{537B8886-A752-47C4-A5B3-39D6F0CE9232}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{537B8886-A752-47C4-A5B3-39D6F0CE9232}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{537B8886-A752-47C4-A5B3-39D6F0CE9232}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C19AB6EA-1A6B-4591-A08B-7D4DE5642FFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C19AB6EA-1A6B-4591-A08B-7D4DE5642FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C19AB6EA-1A6B-4591-A08B-7D4DE5642FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C19AB6EA-1A6B-4591-A08B-7D4DE5642FFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3F5EF33-6AB4-47EE-9801-7D5DA69A19D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3F5EF33-6AB4-47EE-9801-7D5DA69A19D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3F5EF33-6AB4-47EE-9801-7D5DA69A19D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3F5EF33-6AB4-47EE-9801-7D5DA69A19D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
