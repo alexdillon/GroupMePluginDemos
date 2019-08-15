@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using GroupMeClientApi.Models;
 
 namespace GroupPluginDemoWPF
 {
-    public class MyPlugin : GroupMeClientPlugin.IPluginBase, GroupMeClientPlugin.GroupChat.IGroupChatPlugin
+    public class MyPlugin : GroupMeClientPlugin.PluginBase, GroupMeClientPlugin.GroupChat.IGroupChatPlugin
     {
-        public string PluginName => "Group Stats Demo WPF";
+        public string PluginName => this.PluginDisplayName;
+
+        public override string PluginDisplayName => "Group Stats Demo WPF";
+
+        public override string PluginVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         public Task Activated(IMessageContainer groupOrChat)
         {
