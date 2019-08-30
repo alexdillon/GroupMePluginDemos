@@ -41,11 +41,11 @@
     <Reference Include="Bayeux, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Bayeux2.1.0.0\lib\netstandard2.0\Bayeux.dll</HintPath>
     </Reference>
-    <Reference Include="GroupMeClientApi, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GroupMeClientApi.0.0.1\lib\netstandard2.0\GroupMeClientApi.dll</HintPath>
+    <Reference Include="GroupMeClientApi, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GroupMeClientApi.0.0.2\lib\netstandard2.0\GroupMeClientApi.dll</HintPath>
     </Reference>
-    <Reference Include="GroupMeClientPlugin, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GroupMeClientPlugin.1.0.1\lib\netstandard2.0\GroupMeClientPlugin.dll</HintPath>
+    <Reference Include="GroupMeClientPlugin, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GroupMeClientPlugin.1.0.4\lib\netstandard2.0\GroupMeClientPlugin.dll</HintPath>
     </Reference>
     <Reference Include="JsonSubTypes, Version=1.6.0.0, Culture=neutral, PublicKeyToken=ee75fc290dbc1176, processorArchitecture=MSIL">
       <HintPath>..\packages\JsonSubTypes.1.6.0\lib\net47\JsonSubTypes.dll</HintPath>
