@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using GroupMeClientApi.Models;
+using GroupMeClientPlugin.GroupChat;
 
 namespace GroupPluginDemoWPF_MVVM
 {
@@ -16,11 +17,13 @@ namespace GroupPluginDemoWPF_MVVM
 
         public override string PluginVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-        public Task Activated(IMessageContainer groupOrChat)
+        public override Version ApiVersion => new Version(2, 0, 0);
+
+        public Task Activated(IMessageContainer groupOrChat, IQueryable<Message> cacheForGroupOrChat, IQueryable<Message> globalCache, IPluginUIIntegration integration)
         {
             MainWindow mainWindow = new MainWindow(); // application entry point
-            MainWindowViewModel vm = new MainWindowViewModel(groupOrChat); // manually bind the ViewModel since App.xaml is missing in libraries
-            mainWindow.DataContext = vm;
+            MainWindowViewModel vm = new MainWindowViewModel(groupOrChat, cacheForGroupOrChat, globalCache); 
+            mainWindow.DataContext = vm; // Manually bind the DataContext since the library version of MvvmLight
 
             System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {

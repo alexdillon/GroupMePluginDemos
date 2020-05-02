@@ -1,4 +1,5 @@
 ﻿using GroupMeClientApi.Models;
+using System.Linq;
 
 namespace GroupPluginDemoWPF_MVVM
 {
@@ -6,21 +7,30 @@ namespace GroupPluginDemoWPF_MVVM
     {
         private string someGeneratedString;
 
-        public MainWindowViewModel(IMessageContainer messageContainer)
+        public MainWindowViewModel(IMessageContainer messageContainer, IQueryable<Message> cacheForGroupOrChat, IQueryable<Message> globalCache)
         {
             this.MessageContainer = messageContainer;
+            this.MessagesForGroup = cacheForGroupOrChat;
+            this.GlobalCache = globalCache;
 
-            this.SomeGeneratedString = System.DateTime.Now.ToLongTimeString();
+            var mostRecentGroupMessage = this.MessagesForGroup.OrderByDescending(m => m.CreatedAtUnixTime).First();
+            var mostRecentGlobalMessage = this.GlobalCache.OrderByDescending(m => m.CreatedAtUnixTime).First();
+
+            this.SomeGeneratedString = $"The most recent message in this group was {mostRecentGroupMessage.Text}. The most recent message in the cache from all groups is {mostRecentGlobalMessage.Text}";
         }
 
         public string Name => this.MessageContainer.Name;
 
         public string SomeGeneratedString
         {
-            get { return this.someGeneratedString; }
-            private set { this.Set(() => this.SomeGeneratedString, ref this.someGeneratedString, value); }
+            get => this.someGeneratedString;
+            private set => this.Set(() => this.SomeGeneratedString, ref this.someGeneratedString, value);
         }
 
         private IMessageContainer MessageContainer { get; }
+
+        private IQueryable<Message> MessagesForGroup { get; }
+
+        private IQueryable<Message> GlobalCache { get; }
     }
 }
