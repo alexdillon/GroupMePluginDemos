@@ -1,8 +1,7 @@
 # GroupMe Desktop Client Plugin Demos
 Samples for the Group-Chat Option Plugin and the Message Composer Plugin
 - EffectDemo: Basic template for a message composer plugin. This plugin format can be used to offer message suggestions based on what a user has typed.
-- GroupPluginDemoWPF: Group Plugins can be invoked for a specific Group or Chat (direct message) from the dropdown menu at the top. This is demo that opens a plain WPF window and displays the name of the selected group.
-- GroupPluginDemoWPF-MVVM: This example is similar to the GroupPluginDemoWPF one, except using MVVM. MvvmLight is included.
+- GroupPluginDemoWPF-MVVM: Group Plugins can be invoked for a specific Group or Chat (direct message) from the dropdown menu at the top. This is demo that opens a  WPF window and displays the name of the selected group. The most recent message in the group is shown from cache, as well as the most recently cached message (from any group). MvvmLight is included.
 
 ## Build
 In order to build the plugins, they must have references to GroupMeClientApi and GroupMeClientPlugin from the GroupMeClient repository. 
