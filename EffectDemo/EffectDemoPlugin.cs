@@ -5,7 +5,7 @@ using GroupMeClientPlugin.MessageCompose;
 
 namespace EffectDemo
 {
-    public class Class1 : GroupMeClientPlugin.PluginBase, GroupMeClientPlugin.MessageCompose.IMessageComposePlugin
+    public class EffectDemoPlugin : GroupMeClientPlugin.PluginBase, IMessageComposePlugin
     {
         public string EffectPluginName => this.PluginDisplayName;
 
@@ -13,9 +13,13 @@ namespace EffectDemo
 
         public override string PluginVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
+        public override Version ApiVersion => new Version(2, 0, 0);
+
         public Task<MessageSuggestions> ProvideOptions(string typedMessage)
         {
-            throw new NotImplementedException();
+            var results = new MessageSuggestions();
+            results.TextOptions.Add("DEMO: " + typedMessage.ToUpper());
+            return Task.FromResult(results);
         }
     }
 }
