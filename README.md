@@ -47,36 +47,53 @@ The sample solution includes a binary copy of the packaging tool, which is autom
 GroupMe Desktop Client v0.0.25 and newer include support for automatically installing and updating plugins from online repositories. GitHub Releases are supported and are the recommended method for distributing plugins.
 The sample solution comes pre-configured to generate the RELEASES file and zip bundles for automatic installation. To apply this packaging to plugins in another solution, the following steps can be used.
 
-- Copy the ```PackageForReleaseTools``` folder into the root of your solution. 
+- Install the [GMDCPluginPackager](https://www.nuget.org/packages/GMDCPluginPackager) package from NuGet
 - Edit the .csproj file for your plugin. Include the following section in the project file:
 
    ```xml
-   <Target Name="PackageForRelease" AfterTargets="Build" Condition=" '$(Configuration)' == 'Release'">
-     <Message Text="Packaging for Release...." Importance="High" />
-
-     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
-       <Output TaskParameter="Assemblies" ItemName="myAssemblyInfo" />
-     </GetAssemblyIdentity>
-
-     <Exec Command="&quot;$(SolutionDir)\PackageForReleaseTools\PackageForRelease.exe&quot; --shortname $(ProjectName) --fullname &quot;PUT THE FULL DISPLAY NAME HERE&quot; --bindir &quot;$(OutDir)\&quot; --pubdir &quot;$(OutDir)\..\..\..\\Publish\\&quot; --version &quot;$([System.Version]::Parse(%(myAssemblyInfo.Version)).ToString(3))&quot;" />
-   </Target>
+  <Target Name="_DetermineSetupGMDCPackagerVersion" Condition="'$(SetupGMDCPackagerVersion)' == ''">
+    <ItemGroup>
+      <Package-GMDCPluginPackager Include="@(PackageReference)" Condition=" '%(Identity)' == 'GMDCPluginPackager' " />
+    </ItemGroup>
+    <CreateProperty Value="%(Package-GMDCPluginPackager.Version)">
+      <Output TaskParameter="Value" PropertyName="SetupGMDCPackagerVersion" />
+    </CreateProperty>
+    <Message Text="Automatically detected GMDC Packaging Tools version: $(SetupGMDCPackagerVersion)" Importance="Normal" />
+  </Target>
+  <Target Name="PackageForRelease" AfterTargets="Build" Condition=" '$(Configuration)' == 'Release'" DependsOnTargets="_DetermineSetupGMDCPackagerVersion">
+    <Message Text="Packaging for Release...." Importance="High" />
+    <PropertyGroup>
+      <_PackageForReleasePath>$(NuGetPackageRoot)GMDCPluginPackager\$(SetupGMDCPackagerVersion)\tools\net46\PackageForRelease.exe</_PackageForReleasePath>
+    </PropertyGroup>
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="myAssemblyInfo" />
+    </GetAssemblyIdentity>
+    <Exec Command="&quot;$(_PackageForReleasePath)&quot; --shortname $(ProjectName) --fullname &quot;Group Plugin Demo&quot; --bindir &quot;$(OutDir)\&quot; --pubdir &quot;$(OutDir)\..\..\..\\Publish\\&quot; --version &quot;$([System.Version]::Parse(%(myAssemblyInfo.Version)).ToString(3))&quot;" />
+  </Target>
+</Project>
    ```
    
    - Replace ```PUT THE FULL NAME HERE``` with the complete display name of your plugin, or select a MSBuild variable to use. This string will be shown in the GMDC Repo Browser to identify your plugin.
    - The ```pubdir``` parameter indicates the folder where the resulting RELEASES file and zip bundles should be stored. The number of ```..\``` paths may need to be adjusted relative to your solution structure. The sample path is a typical representation for a .NET Framework project nested in a solution.
    
-- All artifacts produced in the ```bindir``` folder will be bundled with your plugin. Some dependencies, such as GroupMeClientApi and GroupMePlugin should NOT be included though, since they are already provided at runtime by GMDC. The same applies for MahApps Metro (if used) and MvvmLight for graphical plugins. To exclude these dependencies from being included in a release build, update the .csproj as shown below.
+- All artifacts produced in the ```bindir``` folder will be bundled with your plugin. Some dependencies, such as GroupMeClientApi and GroupMePlugin should NOT be included though, since they are already provided at runtime by GMDC. The same applies for some external libraries that are core components of GMDC. To exclude these dependencies from being included in a release build, update the .csproj as shown below.
    
    ```xml
-	<PackageReference Include="GroupMeClientPlugin">
-      <Version>2.0.0</Version>
+	<PackageReference Include="{the name of the dependency}">
+      <Version>{the correct version}</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
    ```
    
    - Note the inclusion of the ```<ExcludeAssets>runtime</ExcludeAssets>``` and ```<PrivateAssets>all</PrivateAssets>``` lines.
-   - These should be included for GroupMeClientApi, GroupMeClientPlugin, MahApps Metro, MvvmLight, and System.ComponentModel.Annotations.
+   - ExcludeAssets and PrivateAssets should be set for ALL of the following libraries:
+      - GroupMeClientApi
+      - GroupMeClientPlugin
+      - MahApps.Metro version 2.x
+      - MvvmLightLibsStd10
 - To run the packaging tool, build in Release mode.
-- Prior to producing a final release build, empty the contents of the Publish folder. The packaging tool appends a new line onto the RELEASES file for each plugin, however, it does not update old entries. This can result in duplicate entries if numerous release builds have been done with the same version number without clearing the folder first. 
+- Prior to producing a final release build, empty the contents of the Publish folder. The packaging tool appends a new line onto the RELEASES file for each plugin, however, it does not delete old files. 
 - Create a GitHub release and ensure that all packaged artifacts are uploaded to the release. This includes the RELEASES.txt file and all .zip packages. None of the files should be renamed. 
+  - If using the GitHub Action for releasing, when a tag is pushed to the master branch, a build will be automatically executed, and the results will be copied into a pre-release GitHub Release entry.
+  - The release can be manually edited and approved through the GitHub website.
