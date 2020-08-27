@@ -108,7 +108,12 @@
       <ExcludeAssets>runtime</ExcludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="MvvmLightLibs">
+    <PackageReference Include="MahApps.Metro">
+      <Version>2.2.0</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="MvvmLightLibsStd10">
       <Version>5.4.1.1</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
       <PrivateAssets>all</PrivateAssets>
