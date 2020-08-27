@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="GlobalAssemblyInfo.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -94,6 +95,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="GitInfo">
+      <Version>2.0.26</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="GMDCPluginPackager">
+      <Version>1.0.0</Version>
+    </PackageReference>
     <PackageReference Include="GroupMeClientPlugin">
       <Version>2.0.1</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
@@ -111,14 +120,23 @@
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-
-  <Target Name="PackageForRelease" AfterTargets="Build"  Condition=" '$(Configuration)' == 'Release'">
+  <Target Name="_DetermineSetupGMDCPackagerVersion" Condition="'$(SetupGMDCPackagerVersion)' == ''">
+    <ItemGroup>
+      <Package-GMDCPluginPackager Include="@(PackageReference)" Condition=" '%(Identity)' == 'GMDCPluginPackager' " />
+    </ItemGroup>
+    <CreateProperty Value="%(Package-GMDCPluginPackager.Version)">
+      <Output TaskParameter="Value" PropertyName="SetupGMDCPackagerVersion" />
+    </CreateProperty>
+    <Message Text="Automatically detected GMDC Packaging Tools version: $(SetupGMDCPackagerVersion)" Importance="Normal" />
+  </Target>
+  <Target Name="PackageForRelease" AfterTargets="Build" Condition=" '$(Configuration)' == 'Release'" DependsOnTargets="_DetermineSetupGMDCPackagerVersion">
     <Message Text="Packaging for Release...." Importance="High" />
-
+    <PropertyGroup>
+      <_PackageForReleasePath>$(NuGetPackageRoot)GMDCPluginPackager\$(SetupGMDCPackagerVersion)\tools\net46\PackageForRelease.exe</_PackageForReleasePath>
+    </PropertyGroup>
     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
       <Output TaskParameter="Assemblies" ItemName="myAssemblyInfo" />
     </GetAssemblyIdentity>
-
-    <Exec Command="&quot;$(SolutionDir)\PackageForReleaseTools\PackageForRelease.exe&quot; --shortname $(ProjectName) --fullname &quot;Group Plugin Demo&quot; --bindir &quot;$(OutDir)\&quot; --pubdir &quot;$(OutDir)\..\..\..\\Publish\\&quot; --version &quot;$([System.Version]::Parse(%(myAssemblyInfo.Version)).ToString(3))&quot;" />
+    <Exec Command="&quot;$(_PackageForReleasePath)&quot; --shortname $(ProjectName) --fullname &quot;Group Plugin Demo&quot; --bindir &quot;$(OutDir)\&quot; --pubdir &quot;$(OutDir)\..\..\..\\Publish\\&quot; --version &quot;$([System.Version]::Parse(%(myAssemblyInfo.Version)).ToString(3))&quot;" />
   </Target>
 </Project>
